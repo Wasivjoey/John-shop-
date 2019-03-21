@@ -11,14 +11,24 @@ class _ProductsState extends State<Products> {
   var product_list=[
     {
       "name":"Patty",
-      "picture":"images/shop4",
+      "picture":'images/Shop1.jpg',
       "price":140,
     },
-{
+    {
       "name":"juice",
-      "picture":"images/cat/soda .png",
+      "picture":'images/cats/food.png',
       "price":90,
-    }
+    },
+    {
+      "name":'cake ',
+      "picture":'images/cats/snacks.png',
+      "price":90,
+    },
+    {
+      "name":"juice",
+      "picture":'images/cats/soda .png',
+      "price":90,
+    },
   ];
 
   @override
