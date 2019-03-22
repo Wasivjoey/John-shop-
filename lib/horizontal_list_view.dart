@@ -29,6 +29,10 @@ class HorizontalList extends StatelessWidget{
             image_location: 'images/cats/food.png',
             image_caption: 'food',
           ),
+           Category(
+            image_location: 'images/cats/food.png',
+            image_caption: 'Other',
+          ),
         ],
       ),
     );

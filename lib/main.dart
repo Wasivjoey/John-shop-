@@ -39,6 +39,8 @@ class _HomePageState extends State<HomePage> {
           autoplay: true,
           animationCurve: Curves.fastOutSlowIn,
           animationDuration: Duration(microseconds: 1000),
+          dotSize: 2.0,
+          indicatorBgPadding: 2.0,
         )
     );
 

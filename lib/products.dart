@@ -11,11 +11,11 @@ class _ProductsState extends State<Products> {
   var product_list=[
     {
       "name":"Patty",
-      "picture":'images/Shop1.jpg',
+      "picture":'images/patty.jpeg',
       "price":140,
     },
     {
-      "name":"juice",
+      "name":"dog",
       "picture":'images/cats/food.png',
       "price":90,
     },
@@ -60,30 +60,42 @@ class _ProductsState extends State<Products> {
     @override
     Widget build(BuildContext context) {
       return Card(
-        child: Hero(tag: product_name,
-        child: Material(
-          child: InkWell(
-            onTap: ()=> Navigator.of(context).push(new MaterialPageRoute(
-              builder: (context)=> new ProductDetails())),
-          child: GridTile(
-            footer: Container(
-              color: Colors.white70,
-              child: ListTile(
-                leading: Text(product_name,style: TextStyle( fontWeight: FontWeight.bold),
-                ),
-                title: Text("\$$product_price", style:TextStyle(color: Colors.green,fontWeight: FontWeight.w800),
+      child: Hero(
+          tag: product_name,
+          child: Material(
+            child: InkWell(
+              onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                builder: (context) => new ProductDetails(
+                  product_detail_name:  product_name,
+                  product_detail_picture: product_picture,
+                  product_detail_price: product_price,
+                ) )),
+              child: GridTile(
+                  footer: Container(
+                    color: Colors.white70,
+                    child: ListTile(
+                        leading: Text(
+                          product_name,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        title: Text(
+                          "\$$product_price",
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.w800),
+                        ),
+                        
+                    ),
+                  ),
+                  child: Image.asset(
+                    product_picture,
+                    fit: BoxFit.cover,
+                  )
               ),
             ),
-          ),
-            child: Image.asset(product_picture,
-            fit: BoxFit.cover ,),
-           
-          ),
-
-        ),),),
-        
-        
-      );
+          )
+        ),
+    );
+  }
     
   }
-  }
+  
