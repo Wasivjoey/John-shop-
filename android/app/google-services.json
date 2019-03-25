@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "578064271889",
+    "firebase_url": "https://john-s-shop.firebaseio.com",
+    "project_id": "john-s-shop",
+    "storage_bucket": "john-s-shop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578064271889:android:db7b279a8af37ed2",
+        "android_client_info": {
+          "package_name": "com.ap.johnshopmob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578064271889-9v6ncotg60nc4k93cfe31f46re3q0cvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ap.johnshopmob",
+            "certificate_hash": "16a742715b0e463b4d757803411eb6d5c538edd4"
+          }
+        },
+        {
+          "client_id": "578064271889-8793v3gdklud3fp7uvmkiabvaroph508.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzSMMgMSX02Fy7Xvi2iqLOih79gu9_ll4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578064271889-8793v3gdklud3fp7uvmkiabvaroph508.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
