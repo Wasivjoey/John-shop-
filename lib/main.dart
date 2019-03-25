@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body:  new ListView(
+      body:  new Column(
         children: <Widget>[
           image_carousel,
 
@@ -144,10 +144,8 @@ class _HomePageState extends State<HomePage> {
 
             //gridview 
 
-            Container(
-              height:  320,
-              child: Products(),
-              ),
+           Flexible(child: Products()),
+              
           
         ],
       ),
