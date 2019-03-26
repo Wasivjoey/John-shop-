@@ -40,7 +40,7 @@
        itemBuilder: (context, index){
          return Single_cart_product(
            cart_product_name: Products_on_Cart[index]["name"],
-           cart_product_picture: Products_on_Cart[index]["Picture"],
+           cart_product_picture: Products_on_Cart[index]["picture"],
            cart_product_price: Products_on_Cart[index]["price"],
            cart_product_quantity: Products_on_Cart[index]["Quantity"],
          );
@@ -73,7 +73,7 @@
        child: ListTile(
 
          //========leading Section===========
-    //leading: new Image.asset(cart_product_picture, width: 80.0,height: 80.0,),
+    leading: new Image.asset(cart_product_picture, width: 80.0,height: 80.0,),
 
     //=======titel section ========
          title: new Text(cart_product_name),
