@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:john_shop_mob/cartProduct.dart';
-
+import 'package:john_shop_mob/order.dart';
+import 'package:john_shop_mob/firebase_firestore_service.dart';
+import 'package:path/path.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -8,6 +10,8 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  FirebaseFirestoreService db = new FirebaseFirestoreService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,35 +20,39 @@ class _CartState extends State<Cart> {
         backgroundColor: Colors.green,
         title: Text("Cart"),
         actions: <Widget>[
-          new IconButton( icon: Icon(Icons.search, color: Colors.white,), onPressed: (){
+          new IconButton(
+              icon: Icon(Icons.search, color: Colors.white,), onPressed: () {
 
           }),
-        
+
         ],
       ),
 
       body: new Cart_products(),
-      
+
       bottomNavigationBar: new Container(
         color: Colors.white,
         child: Row(
           children: <Widget>[
             Expanded(
-              child: ListTile(
-                title:  new Text("Total"),
-                subtitle: new Text("\$500"),
-              ) ),
- Expanded(
-   child:  new MaterialButton(onPressed: (){},
-   child:  new Text("Check out",style: TextStyle(color: Colors.white),),
-   color: Colors.green,
-   
-   
-   ),
-  
- )
-        ],),
+                child: ListTile(
+                  title: new Text("Total"),
+                  subtitle: new Text("\$500"),
+                )),
+            Expanded(
+              child: new MaterialButton(
+                onPressed: () {  },
+                child: new Text(
+                  "Check out", style: TextStyle(color: Colors.white),
+
+                ),
+                color: Colors.green,
+              ),
+
+            )
+          ],),
       ),
     );
   }
 }
+

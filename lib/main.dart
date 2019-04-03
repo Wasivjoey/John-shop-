@@ -4,7 +4,6 @@ import 'package:john_shop_mob/horizontal_list_view.dart';
 import 'package:john_shop_mob/products.dart';
 import 'package:john_shop_mob/pages/cart.dart';
 
-
 void main(){
   runApp(
       MaterialApp(

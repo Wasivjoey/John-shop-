@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:john_shop_mob/order.dart';
+import 'package:john_shop_mob/firebase_firestore_service.dart';
+
 
 class ProductDetails extends StatefulWidget {
+  final Order order;
+
   final product_detail_name;
   final product_detail_price;
   final product_detail_picture;
@@ -9,7 +14,7 @@ class ProductDetails extends StatefulWidget {
     this.product_detail_name,
     this.product_detail_price,
     this.product_detail_picture,
-
+    this.order
     });
 
   @override
@@ -17,6 +22,8 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  FirebaseFirestoreService db = new FirebaseFirestoreService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +119,12 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
          
           
-           new IconButton(icon: Icon(Icons.add_shopping_cart), color: Colors.green, onPressed: (){},)
+           new IconButton(icon: Icon(Icons.add_shopping_cart), color: Colors.green, onPressed: (){
+            db.addToCart(widget.product_detail_name,widget.product_detail_price.toString(),"edt2")
+                .then((_) {
+            Navigator.pop(context);
+            });
+           },)
            ],
         ),
 Divider(color: Colors.green,),

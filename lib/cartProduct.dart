@@ -1,4 +1,9 @@
- import 'package:flutter/material.dart';
+ import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:john_shop_mob/order.dart';
+ import 'package:john_shop_mob/firebase_firestore_service.dart';
 
  class Cart_products extends StatefulWidget {
    @override
@@ -6,51 +11,45 @@
  }
  
  class _Cart_productsState extends State<Cart_products> {
-   var Products_on_Cart =[{
+   FirebaseFirestoreService db = new FirebaseFirestoreService();
 
-      "name":"Patty",
-      "picture":'images/patty.jpeg',
-      "price":140,
-      "Quantity": 2,
-    },
-    {
-      "name":"dog",
-      "picture":'images/cats/food.png',
-      "price":90,
-      "Quantity": 1 , 
-    },
-    {
-      "name":'cake ',
-      "picture":'images/cats/snacks.png',
-      "price":90,
-       "Quantity": 4 ,
-    },
-    {
-      "name":"juice",
-      "picture":'images/cats/soda .png',
-      "price":90,
-       "Quantity": 7 ,
-    },
-   ];
-   
+   List<Order> items;
+   StreamSubscription<QuerySnapshot> noteSub;
+
+   @override
+   void initState() {
+     super.initState();
+
+     items = new List();
+
+     noteSub?.cancel();
+     noteSub = db.getCart().listen((QuerySnapshot snapshot) {
+       final List<Order> cart_stuff = snapshot.documents
+           .map((documentSnapshot) => Order.fromMap(documentSnapshot.data))
+           .toList();
+       setState(() {
+         this.items = cart_stuff;
+
+       });
+     });
+   }
+
    @override
    Widget build(BuildContext context) {
      return new ListView.builder(
-       itemCount:  3,
+       itemCount:  items.length,
        itemBuilder: (context, index){
          return Single_cart_product(
-           cart_product_name: Products_on_Cart[index]["name"],
-           cart_product_picture: Products_on_Cart[index]["picture"],
-           cart_product_price: Products_on_Cart[index]["price"],
-           cart_product_quantity: Products_on_Cart[index]["Quantity"],
+           cart_product_name: '${items[index].productName}',
+           cart_product_picture: '${items[index].productName}',
+           cart_product_price: '${items[index].productPrice}',
+           cart_product_quantity: '${items[index].productQuantity}',
          );
        
 
    });
-       
-     
    }
- }
+    }
 
  class Single_cart_product  extends StatelessWidget {
 
