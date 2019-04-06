@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:john_shop_mob/horizontal_list_view.dart';
-import 'package:john_shop_mob/products.dart';
-import 'package:john_shop_mob/pages/cart.dart';
+import 'package:john_shop_mob/pages/horizontal_list_view.dart';
+import 'package:john_shop_mob/pages/product_page.dart';
+import 'package:john_shop_mob/pages/cart_page.dart';
 
 void main(){
   runApp(
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           new IconButton( icon: Icon(Icons.search, color: Colors.white,), onPressed: (){}),
           new IconButton( icon: Icon(Icons.shopping_cart, color: Colors.white,), onPressed: (){
-             Navigator.push(context, MaterialPageRoute(builder: (context) => new Cart()));
+             Navigator.push(context, MaterialPageRoute(builder: (context) => new Cart_Page()));
           })
         ],
       ),
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
 
             InkWell(
               onTap: (){
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => new Cart()));
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => new Cart_Page()));
               },
               child: ListTile(
                 title: Text('Cart'),

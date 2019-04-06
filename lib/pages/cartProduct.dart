@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:john_shop_mob/order.dart';
+import 'package:john_shop_mob/struct/cart.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
 
  class Cart_products extends StatefulWidget {
@@ -13,7 +13,7 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
  class _Cart_productsState extends State<Cart_products> {
    FirebaseFirestoreService db = new FirebaseFirestoreService();
 
-   List<Order> items;
+   List<Cart> items;
    StreamSubscription<QuerySnapshot> cartSub;
 
    @override
@@ -24,8 +24,8 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
 
      cartSub?.cancel();
      cartSub = db.getCart().listen((QuerySnapshot snapshot) {
-       final List<Order> cart_stuff = snapshot.documents
-           .map((documentSnapshot) => Order.fromMap(documentSnapshot.data))
+       final List<Cart> cart_stuff = snapshot.documents
+           .map((documentSnapshot) => Cart.fromMap(documentSnapshot.data))
            .toList();
        setState(() {
          this.items = cart_stuff;
@@ -41,7 +41,7 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
        itemBuilder: (context, index){
          return Single_cart_product(
            cart_product_name: '${items[index].productName}',
-           cart_product_picture: '${items[index].productName}',
+           cart_product_picture: '${items[index].productPicture}',
            cart_product_price: '${items[index].productPrice}',
            cart_product_quantity: '${items[index].productQuantity}',
          );
@@ -72,7 +72,7 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
        child: ListTile(
 
          //========leading Section===========
-    leading: new Image.asset(cart_product_picture, width: 80.0,height: 80.0,),
+    leading: new Image.network(cart_product_picture, width: 80.0,height: 70.0,),
 
     //=======titel section ========
          title: new Text(cart_product_name),

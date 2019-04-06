@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:john_shop_mob/pages/product_details.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:john_shop_mob/product.dart';
+import 'package:john_shop_mob/struct/product.dart';
 
 class Products extends StatefulWidget {
   @override

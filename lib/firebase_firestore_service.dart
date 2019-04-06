@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:john_shop_mob/order.dart';
+import 'package:john_shop_mob/struct/cart.dart';
+import 'package:john_shop_mob/struct/order.dart';
 
 final CollectionReference orderCollection = Firestore.instance.collection('order');
 final CollectionReference cartCollection = Firestore.instance.collection('cart');
@@ -34,12 +35,12 @@ class FirebaseFirestoreService {
     });
   }
 
-  Future<Order> addToCart(String name, String price, String quantity) async {
+  Future<Order> addToCart(String name, String price, String quantity, String picture) async {
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(cartCollection.document());
 
-      final Order order = new Order(ds.documentID, name, price, quantity);
-      final Map<String, dynamic> data = order.toMap();
+      final Cart cart = new Cart(ds.documentID, name, price, quantity, picture);
+      final Map<String, dynamic> data = cart.toMap();
 
       await tx.set(ds.reference, data);
 
@@ -80,23 +81,6 @@ class FirebaseFirestoreService {
     }
 
     return snapshots;
-  }
-
-  Future<dynamic> updateNote(Order note) async {
-    final TransactionHandler updateTransaction = (Transaction tx) async {
-      final DocumentSnapshot ds = await tx.get(orderCollection.document(note.id));
-
-      await tx.update(ds.reference, note.toMap());
-      return {'updated': true};
-    };
-
-    return Firestore.instance
-        .runTransaction(updateTransaction)
-        .then((result) => result['updated'])
-        .catchError((error) {
-      print('error: $error');
-      return false;
-    });
   }
 
   Future<dynamic> deleteOrder(String id) async {

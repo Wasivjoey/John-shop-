@@ -1,15 +1,41 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:john_shop_mob/cartProduct.dart';
+import 'package:john_shop_mob/pages/cartProduct.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
+import 'package:john_shop_mob/struct/cart.dart';
 
 
-class Cart extends StatefulWidget {
+class Cart_Page extends StatefulWidget {
   @override
-  _CartState createState() => _CartState();
+  _Cart_PageState createState() => _Cart_PageState();
 }
 
-class _CartState extends State<Cart> {
+class _Cart_PageState extends State<Cart_Page> {
   FirebaseFirestoreService db = new FirebaseFirestoreService();
+
+  List<Cart> cart_List;
+  StreamSubscription<QuerySnapshot> productSub;
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    cart_List = new List();
+
+    productSub?.cancel();
+    productSub = db.getCart().listen((QuerySnapshot snapshot) {
+      final List<Cart> cartList = snapshot.documents
+          .map((documentSnapshot) => Cart.fromMap(documentSnapshot.data))
+          .toList();
+      setState(() {
+        this.cart_List = cartList;
+      });
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +66,12 @@ class _CartState extends State<Cart> {
                 )),
             Expanded(
               child: new MaterialButton(
-                onPressed: () {  },
+                onPressed: () {
+                  var loop = cart_List.length;
+                  for (var index = 0; index < loop ;index++) {
+                    db.createOrder('${cart_List[index].productName}','${cart_List[index].productPrice}','${cart_List[index].productQuantity}');
+                  }
+                },
                 child: new Text(
                   "Check out", style: TextStyle(color: Colors.white),
 
