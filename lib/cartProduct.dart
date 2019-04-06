@@ -1,9 +1,9 @@
- import 'dart:async';
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:john_shop_mob/order.dart';
- import 'package:john_shop_mob/firebase_firestore_service.dart';
+import 'package:john_shop_mob/firebase_firestore_service.dart';
 
  class Cart_products extends StatefulWidget {
    @override
@@ -14,7 +14,7 @@ import 'package:john_shop_mob/order.dart';
    FirebaseFirestoreService db = new FirebaseFirestoreService();
 
    List<Order> items;
-   StreamSubscription<QuerySnapshot> noteSub;
+   StreamSubscription<QuerySnapshot> cartSub;
 
    @override
    void initState() {
@@ -22,8 +22,8 @@ import 'package:john_shop_mob/order.dart';
 
      items = new List();
 
-     noteSub?.cancel();
-     noteSub = db.getCart().listen((QuerySnapshot snapshot) {
+     cartSub?.cancel();
+     cartSub = db.getCart().listen((QuerySnapshot snapshot) {
        final List<Order> cart_stuff = snapshot.documents
            .map((documentSnapshot) => Order.fromMap(documentSnapshot.data))
            .toList();

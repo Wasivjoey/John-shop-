@@ -4,6 +4,7 @@ import 'package:john_shop_mob/order.dart';
 
 final CollectionReference orderCollection = Firestore.instance.collection('order');
 final CollectionReference cartCollection = Firestore.instance.collection('cart');
+final CollectionReference productCollection = Firestore.instance.collection('products');
 
 class FirebaseFirestoreService {
 
@@ -55,6 +56,20 @@ class FirebaseFirestoreService {
 
   Stream<QuerySnapshot> getCart({int offset, int limit}) {
     Stream<QuerySnapshot> snapshots = cartCollection.snapshots();
+
+    if (offset != null) {
+      snapshots = snapshots.skip(offset);
+    }
+
+    if (limit != null) {
+      snapshots = snapshots.take(limit);
+    }
+
+    return snapshots;
+  }
+
+  Stream<QuerySnapshot> getProducts({int offset, int limit}) {
+    Stream<QuerySnapshot> snapshots = productCollection.snapshots();
 
     if (offset != null) {
       snapshots = snapshots.skip(offset);

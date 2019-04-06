@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:john_shop_mob/pages/product_details.dart';
+import 'package:john_shop_mob/firebase_firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:john_shop_mob/product.dart';
 
 class Products extends StatefulWidget {
   @override
@@ -7,29 +12,27 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
+  FirebaseFirestoreService db = new FirebaseFirestoreService();
 
-  var product_list=[
-    {
-      "name":"Patty",
-      "picture":'images/patty.jpeg',
-      "price":140,
-    },
-    {
-      "name":"dog",
-      "picture":'images/cats/food.png',
-      "price":90,
-    },
-    {
-      "name":'cake ',
-      "picture":'images/cats/snacks.png',
-      "price":90,
-    },
-    {
-      "name":"juice",
-      "picture":'images/cats/soda .png',
-      "price":90,
-    },
-  ];
+  List<Product> product_list;
+  StreamSubscription<QuerySnapshot> productSub;
+
+  @override
+  void initState() {
+    super.initState();
+
+    product_list = new List();
+
+    productSub?.cancel();
+    productSub = db.getProducts().listen((QuerySnapshot snapshot) {
+      final List<Product> prodList = snapshot.documents
+          .map((documentSnapshot) => Product.fromMap(documentSnapshot.data))
+          .toList();
+      setState(() {
+        this.product_list = prodList;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +44,9 @@ class _ProductsState extends State<Products> {
         return Padding(
           padding: const EdgeInsets.all(4.0),
           child: Single_prod(
-            product_name: product_list[index]['name'],
-            product_picture: product_list[index]['picture'],
-            product_price: product_list[index]['price'],
+            product_name: '${product_list[index].productName}',
+            product_picture: '${product_list[index].productPicture}',
+            product_price: '${product_list[index].productPrice}',
           ),
         );
       });
@@ -89,7 +92,7 @@ class _ProductsState extends State<Products> {
                         
                     ),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                     product_picture,
                     fit: BoxFit.cover,
                   )

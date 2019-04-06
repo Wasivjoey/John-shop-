@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:john_shop_mob/cartProduct.dart';
-import 'package:john_shop_mob/order.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
-import 'package:path/path.dart';
+
 
 class Cart extends StatefulWidget {
   @override
