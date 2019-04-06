@@ -16,6 +16,7 @@ class _Cart_PageState extends State<Cart_Page> {
   FirebaseFirestoreService db = new FirebaseFirestoreService();
 
   List<Cart> cart_List;
+  int total = 0;
   StreamSubscription<QuerySnapshot> productSub;
 
 
@@ -32,9 +33,12 @@ class _Cart_PageState extends State<Cart_Page> {
           .toList();
       setState(() {
         this.cart_List = cartList;
+        int loop  = cart_List.length;
+        for (var index = 0; index < loop ;index++) {
+          total = int.parse('${cart_List[index].productPrice}') + total;
+        }
       });
     });
-
   }
 
   @override
@@ -62,7 +66,7 @@ class _Cart_PageState extends State<Cart_Page> {
             Expanded(
                 child: ListTile(
                   title: new Text("Total"),
-                  subtitle: new Text("\$500"),
+                  subtitle: new Text("\$$total"),
                 )),
             Expanded(
               child: new MaterialButton(
