@@ -2,10 +2,15 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:john_shop_mob/struct/cart.dart';
 import 'package:john_shop_mob/struct/order.dart';
+import 'package:location/location.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 final CollectionReference orderCollection = Firestore.instance.collection('order');
 final CollectionReference cartCollection = Firestore.instance.collection('cart');
 final CollectionReference productCollection = Firestore.instance.collection('products');
+final CollectionReference localCollection = Firestore.instance.collection('location');
+Geoflutterfire geo = Geoflutterfire();
+var location = new Location();
 
 class FirebaseFirestoreService {
 
@@ -15,11 +20,11 @@ class FirebaseFirestoreService {
 
   FirebaseFirestoreService.internal();
 
-  Future<Order> createOrder(String name, String price, String quantity) async {
+  Future<Order> createOrder(String name, String price, String quantity, String stud_id) async {
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(orderCollection.document());
 
-      final Order order = new Order(ds.documentID, name, price, quantity);
+      final Order order = new Order(stud_id, name, price, quantity);
       final Map<String, dynamic> data = order.toMap();
 
       await tx.set(ds.reference, data);
@@ -35,7 +40,7 @@ class FirebaseFirestoreService {
     });
   }
 
-  Future<Order> addToCart(String name, String price, String quantity, String picture) async {
+  Future<Cart> addToCart(String name, String price, String quantity, String picture) async {
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(cartCollection.document());
 
@@ -48,7 +53,7 @@ class FirebaseFirestoreService {
     };
 
     return Firestore.instance.runTransaction(createTransaction).then((mapData) {
-      return Order.fromMap(mapData);
+      return Cart.fromMap(mapData);
     }).catchError((error) {
       print('error: $error');
       return null;
@@ -83,9 +88,9 @@ class FirebaseFirestoreService {
     return snapshots;
   }
 
-  Future<dynamic> deleteOrder(String id) async {
+  Future<dynamic> emptyCart(String id) async {
     final TransactionHandler deleteTransaction = (Transaction tx) async {
-      final DocumentSnapshot ds = await tx.get(orderCollection.document(id));
+      final DocumentSnapshot ds = await tx.get(cartCollection.document(id));
 
       await tx.delete(ds.reference);
       return {'deleted': true};
@@ -97,6 +102,15 @@ class FirebaseFirestoreService {
         .catchError((error) {
       print('error: $error');
       return false;
+    });
+  }
+
+  Future<DocumentReference> addGeoPoint(String stud_id) async {
+    var pos = await location.getLocation();
+    GeoFirePoint point = geo.point(latitude: pos['latitude'], longitude: pos['longitude']);
+    return localCollection.add({
+      'position': point.data,
+      'id': stud_id
     });
   }
 }
