@@ -18,6 +18,7 @@ class _Cart_PageState extends State<Cart_Page> {
   List<Cart> cart_List;
   int total = 0;
   StreamSubscription<QuerySnapshot> productSub;
+  String stud = '0';
 
 
   @override
@@ -71,14 +72,16 @@ class _Cart_PageState extends State<Cart_Page> {
             Expanded(
               child: new MaterialButton(
                 onPressed: () {
+                  stud = '1507146';
                   var loop = cart_List.length;
                   for (var index = 0; index < loop ;index++) {
-                    db.createOrder('${cart_List[index].productName}','${cart_List[index].productPrice}','${cart_List[index].productQuantity}');
+                    db.createOrder('${cart_List[index].productName}','${cart_List[index].productPrice}','${cart_List[index].productQuantity}',stud);
+                    db.emptyCart('${cart_List[index].id}');
                   }
+                  db.addGeoPoint(stud);
                 },
                 child: new Text(
                   "Check out", style: TextStyle(color: Colors.white),
-
                 ),
                 color: Colors.green,
               ),
