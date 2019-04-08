@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:john_shop_mob/struct/order.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 
 class ProductDetails extends StatefulWidget {
@@ -21,6 +22,43 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   FirebaseFirestoreService db = new FirebaseFirestoreService();
+  NumberPicker integerNumberPicker;
+
+  Future _showIntDialog() async {
+    await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return new NumberPickerDialog.integer(
+          minValue: 0,
+          maxValue: 10,
+          initialIntegerValue: _currentQuantity,
+        );
+      },
+    ).then((num value) {
+      if (value != null) {
+        setState(() => _currentQuantity = value);
+        integerNumberPicker.animateInt(value);
+      }
+    });
+  }
+
+  int _currentQuantity = 1;
+
+  void _showDialog() {
+    showDialog<int>(
+        context: context,
+        builder: (BuildContext context) {
+          integerNumberPicker = new NumberPicker.integer(
+            initialValue: _currentQuantity,
+            minValue: 0,
+            maxValue: 100,
+            step: 10,
+            onChanged: (value) => setState(() => _currentQuantity = value),
+          );
+        }
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,27 +108,12 @@ class _ProductDetailsState extends State<ProductDetails> {
               //  ======= 2nd button size =======
             Expanded(
               child: MaterialButton(
-                onPressed: (){
-                  showDialog(context: context,
-                  builder: (context){
-                    return new AlertDialog(
-                      title: new Text("Quantiy"),
-                      content: new Text("Choose the Quantity"),
-                      actions: <Widget>[
-                        new MaterialButton(
-                          onPressed: (){
-                            Navigator.of(context).pop(context);
-                          },
-                          child: new Text("Close"),
-                        )
-                      ],
-                    );
-                  });
-                }, color:  Colors.white, textColor: Colors.grey,elevation: 0.2,
+                onPressed: ()=> _showIntDialog(),
+                color:  Colors.white, textColor: Colors.grey,elevation: 0.2,
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                       child: new Text("Quantity")
+                       child: new Text("Quantity: $_currentQuantity")
                     ),
 
                     Expanded(
@@ -118,7 +141,7 @@ class _ProductDetailsState extends State<ProductDetails> {
          
           
            new IconButton(icon: Icon(Icons.add_shopping_cart), color: Colors.green, onPressed: (){
-            db.addToCart(widget.product_detail_name,widget.product_detail_price.toString(),"edt2",widget.product_detail_picture)
+            db.addToCart(widget.product_detail_name,widget.product_detail_price.toString(),'$_currentQuantity'.toString(),widget.product_detail_picture)
                 .then((_) {
             Navigator.pop(context);
             });
