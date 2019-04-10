@@ -20,11 +20,11 @@ class FirebaseFirestoreService {
 
   FirebaseFirestoreService.internal();
 
-  Future<Order> createOrder(String name, String price, String quantity, String stud_id) async {
+  Future<Order> createOrder(String name, String price, String quantity, String studId, String studName) async {
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(orderCollection.document());
 
-      final Order order = new Order(stud_id, name, price, quantity);
+      final Order order = new Order(studId, studName, name, price, quantity);
       final Map<String, dynamic> data = order.toMap();
 
       await tx.set(ds.reference, data);
@@ -105,12 +105,13 @@ class FirebaseFirestoreService {
     });
   }
 
-  Future<DocumentReference> addGeoPoint(String stud_id) async {
+  Future<DocumentReference> addGeoPoint(String studId, String studName) async {
     var pos = await location.getLocation();
     GeoFirePoint point = geo.point(latitude: pos['latitude'], longitude: pos['longitude']);
     return localCollection.add({
       'position': point.data,
-      'id': stud_id
+      'id': studId,
+      'name': studName
     });
   }
 }

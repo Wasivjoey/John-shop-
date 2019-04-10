@@ -40,6 +40,7 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
        itemCount:  items.length,
        itemBuilder: (context, index){
          return Single_cart_product(
+           cart_product_id: '${items[index].id}',
            cart_product_name: '${items[index].productName}',
            cart_product_picture: '${items[index].productPicture}',
            cart_product_price: '${items[index].productPrice}',
@@ -53,13 +54,17 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
 
  class Single_cart_product  extends StatelessWidget {
 
-    final cart_product_name;
+   FirebaseFirestoreService db = new FirebaseFirestoreService();
+
+   final cart_product_name;
+   final cart_product_id;
     final cart_product_picture;
     final cart_product_price;
     final cart_product_quantity;
 
     Single_cart_product({
        this.cart_product_name,
+       this.cart_product_id,
        this.cart_product_picture,
        this.cart_product_price,
        this.cart_product_quantity,
@@ -72,7 +77,7 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
        child: ListTile(
 
          //========leading Section===========
-    leading: new Image.network(cart_product_picture, width: 80.0,height: 70.0,),
+    leading: new Image.network(cart_product_picture, width: 80.0,height: 80.0,),
 
     //=======titel section ========
          title: new Text(cart_product_name),
@@ -80,22 +85,29 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
          //=======subtitle section ========
          subtitle:  new Column(
            children: <Widget>[
-             
-
 // ++++++++++++++++ Item pice +++++++++++++++
              new Container(
                alignment: Alignment.topLeft,
                child: new Text("\$${cart_product_price}", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),)
+             ),
+             new Container(
+               alignment: Alignment.topRight,
+               child: new Column(
+                 children: <Widget>[
+                   new Text("Quantity", textAlign: TextAlign.center, style: TextStyle(fontSize: 12),),
+                   new Text("${cart_product_quantity}", textAlign: TextAlign.center, style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
+                 ],
+               ),
              )
-  
            ],
-
      ),
      trailing: new Column(
        children: <Widget>[
-         new IconButton(icon: Icon(Icons.arrow_drop_up), onPressed: (){}),
-         new Text("${cart_product_quantity}"),
-         new IconButton(icon: Icon(Icons.arrow_drop_down), onPressed: (){}),
+         //new IconButton(icon: Icon(Icons.arrow_drop_up), onPressed: (){}),
+        new IconButton(icon: Icon(Icons.remove_shopping_cart), onPressed: (){
+           db.emptyCart('${cart_product_id}');
+         },),
+         //new IconButton(icon: Icon(Icons.arrow_drop_down), onPressed: (){}),
        ],
      ),
        ),

@@ -40,14 +40,14 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.green,
         title: Text("John's Shop"),
         actions: <Widget>[
-          new IconButton( icon: Icon(Icons.search, color: Colors.white,), onPressed: (){}),
+          //new IconButton( icon: Icon(Icons.search, color: Colors.white,), onPressed: (){}),
           new IconButton( icon: Icon(Icons.shopping_cart, color: Colors.white,), onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context) => new Cart_Page()));
           })
         ],
       ),
 
-      drawer: new Drawer(
+      /*drawer: new Drawer(
         child : new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
+      ),*/
       body:  new Column(
         children: <Widget>[
           image_carousel,

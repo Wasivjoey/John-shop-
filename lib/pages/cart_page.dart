@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:john_shop_mob/pages/cartProduct.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
 import 'package:john_shop_mob/struct/cart.dart';
+import 'validation.dart';
 
 
 class Cart_Page extends StatefulWidget {
@@ -18,7 +19,12 @@ class _Cart_PageState extends State<Cart_Page> {
   List<Cart> cart_List;
   int total = 0;
   StreamSubscription<QuerySnapshot> productSub;
-  String stud = '0';
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController _studIdController = TextEditingController();
+  TextEditingController _studNameController = TextEditingController();
+  String _studId = '';
+  String _studName = '';
+  var stud;
 
 
   @override
@@ -36,7 +42,7 @@ class _Cart_PageState extends State<Cart_Page> {
         this.cart_List = cartList;
         int loop  = cart_List.length;
         for (var index = 0; index < loop ;index++) {
-          total = int.parse('${cart_List[index].productPrice}') + total;
+          total = (int.parse('${cart_List[index].productPrice}') * int.parse('${cart_List[index].productQuantity}')) + total;
         }
       });
     });
@@ -72,13 +78,19 @@ class _Cart_PageState extends State<Cart_Page> {
             Expanded(
               child: new MaterialButton(
                 onPressed: () {
-                  stud = '1507146';
-                  var loop = cart_List.length;
-                  for (var index = 0; index < loop ;index++) {
-                    db.createOrder('${cart_List[index].productName}','${cart_List[index].productPrice}','${cart_List[index].productQuantity}',stud);
-                    db.emptyCart('${cart_List[index].id}');
+                  showDialog(context: context,
+                  builder: (context){
+                    return new AlertDialog(
+                      title: new Text("Enter details for delivery"),
+                      content: new Form(
+                        key: _formKey,
+                        child: FormUI(),
+                      ),
+                    );
                   }
-                  db.addGeoPoint(stud);
+                  );
+                  //stud = '1507146';
+
                 },
                 child: new Text(
                   "Check out", style: TextStyle(color: Colors.white),
@@ -91,5 +103,74 @@ class _Cart_PageState extends State<Cart_Page> {
       ),
     );
   }
+
+  Widget FormUI() {
+    return new Column(
+      children: <Widget>[
+        new TextFormField(
+          controller: _studNameController,
+          onSaved: (v) => _studName = v,
+          decoration: const InputDecoration(
+            labelText: 'Name',
+            hintText: 'Enter your full name'
+          ),
+          keyboardType: TextInputType.text,
+          validator: (value) {
+            if (value.isEmpty) {
+            return 'Please enter your name';
+            }
+          }
+        ),
+        new TextFormField(
+          controller: _studIdController,
+          onSaved: (v) => _studId = v,
+          decoration: const InputDecoration(
+            labelText: 'Student Id',
+            hintText: 'Enter your student id'
+          ),
+          keyboardType: TextInputType.number,
+          validator: numberValidator,
+        ),
+        new RaisedButton(
+        onPressed: (){
+          if (_formKey.currentState.validate()) {
+            _formKey.currentState.save();
+            var loop = cart_List.length;
+            for (var index = 0; index < loop; index++) {
+              db.createOrder('${cart_List[index].productName}',
+                  '${cart_List[index].productPrice}',
+                  '${cart_List[index].productQuantity}', _studId, _studName);
+              db.emptyCart('${cart_List[index].id}');
+            }
+            db.addGeoPoint(_studId, _studName);
+            Navigator.of(context).pop(context);
+          }
+        },
+        child: new Text('Confirm'),
+        ),
+        new RaisedButton(
+          onPressed: (){
+            Navigator.of(context).pop(context);
+          },
+          child: new Text('Cancel'),
+        ),
+
+      ],
+    );
+  }
+
+  String numberValidator(String value) {
+    final n = num.tryParse(value);
+    if(value.length != 7) {
+    return 'Id numbers are 7 numbers in length';
+    } else if(n == null) {
+    return '"$value" is not a valid number';
+    }
+    return null;
+    }
 }
+
+
+
+
 
