@@ -16,6 +16,14 @@ dependencies:
   flutter:
     sdk: flutter
   carousel_pro: ^0.0.13
+  cloud_firestore: ^0.9.7
+  location: ^1.4.1
+  google_maps_flutter: ^0.5.3
+  geoflutterfire: ^2.0.3+2
+  numberpicker: ^1.0.0
+
+
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -45,6 +53,7 @@ flutter:
     - images/shop4.jpg
     - images/shop5.jpg
     - images/shop6.jpg
+    - images/patty.jpeg
     - images/cats/sand.png
     - images/cats/soda .png
     - images/cats/food.png

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:john_shop_mob/horizontal_list_view.dart';
-import 'package:john_shop_mob/products.dart';
+import 'package:john_shop_mob/pages/horizontal_list_view.dart';
+import 'package:john_shop_mob/pages/product_page.dart';
+import 'package:john_shop_mob/pages/cart_page.dart';
 
 
 void main(){
@@ -39,6 +40,8 @@ class _HomePageState extends State<HomePage> {
           autoplay: true,
           animationCurve: Curves.fastOutSlowIn,
           animationDuration: Duration(microseconds: 1000),
+          dotSize: 2.0,
+          indicatorBgPadding: 2.0,
         )
     );
 
@@ -49,7 +52,9 @@ class _HomePageState extends State<HomePage> {
         title: Text("John's Shop"),
         actions: <Widget>[
           new IconButton( icon: Icon(Icons.search, color: Colors.white,), onPressed: (){}),
-          new IconButton( icon: Icon(Icons.shopping_cart, color: Colors.white,), onPressed: (){})
+          new IconButton( icon: Icon(Icons.shopping_cart, color: Colors.white,), onPressed: (){
+             Navigator.push(context, MaterialPageRoute(builder: (context) => new Cart_Page()));
+          })
         ],
       ),
 
@@ -82,7 +87,9 @@ class _HomePageState extends State<HomePage> {
             ),
 
             InkWell(
-              onTap: (){},
+              onTap: (){
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => new Cart_Page()));
+              },
               child: ListTile(
                 title: Text('Cart'),
                 leading: Icon(Icons.shopping_basket,color:Colors.green,),
@@ -123,7 +130,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body:  new ListView(
+      body:  new Column(
         children: <Widget>[
           image_carousel,
 
@@ -137,10 +144,8 @@ class _HomePageState extends State<HomePage> {
 
             //gridview 
 
-            Container(
-              height:  320,
-              child: Products(),
-              ),
+           Flexible(child: Products()),
+              
           
         ],
       ),
