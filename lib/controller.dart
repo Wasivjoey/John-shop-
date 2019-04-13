@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:john_shop_mob/struct/cart.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'firebase_firestore_service.dart';
 import 'package:john_shop_mob/Model.dart';
 
 
@@ -18,10 +17,9 @@ class Con extends ControllerMVC {
   static final model = Model();
 
 
-  Future addtoCart(String name, String price, String quantity, String picture) async{
-    print("success");
-    var load = await model.db.addToCart(name, price, quantity, picture);
-
+  Future<Cart> addtoCart(String name, String price, String quantity, String picture) async{
+    var load = await model.addToCart(name, price, quantity, picture);
+    refresh();
     return load;
   }
 

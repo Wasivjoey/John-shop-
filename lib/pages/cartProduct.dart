@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:john_shop_mob/struct/cart.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
+import 'package:john_shop_mob/Model.dart';
 
  class Cart_products extends StatefulWidget {
    @override
@@ -55,6 +56,8 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
  class Single_cart_product  extends StatelessWidget {
 
    FirebaseFirestoreService db = new FirebaseFirestoreService();
+   static final model = Model();
+
 
    final cart_product_name;
    final cart_product_id;
@@ -105,13 +108,17 @@ import 'package:john_shop_mob/firebase_firestore_service.dart';
        children: <Widget>[
          //new IconButton(icon: Icon(Icons.arrow_drop_up), onPressed: (){}),
         new IconButton(icon: Icon(Icons.remove_shopping_cart), onPressed: (){
-           db.emptyCart('${cart_product_id}');
+           emptyCart('${cart_product_id}');
          },),
          //new IconButton(icon: Icon(Icons.arrow_drop_down), onPressed: (){}),
        ],
      ),
        ),
        );
+       }
+
+       Future<Cart> emptyCart(String id) async{
+        await model.emptyCart(id);
        }
  }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:john_shop_mob/controller.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:john_shop_mob/struct/cart.dart';
+import 'package:john_shop_mob/Model.dart';
 
 
 class ProductDetails extends StatefulWidget {
@@ -21,9 +23,9 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends StateMVC<ProductDetails> {
-  _ProductDetailsState() : super(Con());
   NumberPicker integerNumberPicker;
-  final Con _con = Con.con;
+  static final model = Model();
+
 
 
 
@@ -144,7 +146,8 @@ class _ProductDetailsState extends StateMVC<ProductDetails> {
          
           
            new IconButton(icon: Icon(Icons.add_shopping_cart), color: Colors.green, onPressed: (){
-            _con.addtoCart(widget.product_detail_name,widget.product_detail_price.toString(),'$_currentQuantity'.toString(),widget.product_detail_picture)
+             //Con.bo()
+            addtoCart(widget.product_detail_name,widget.product_detail_price.toString(),'$_currentQuantity'.toString(),widget.product_detail_picture)
                 .then((_) {
             Navigator.pop(context);/* db.addToCart(widget.product_detail_name,widget.product_detail_price.toString(),'$_currentQuantity'.toString(),widget.product_detail_picture)
                 .then((_) {
@@ -173,4 +176,13 @@ Divider(),
     ),
     );
   }
+
+
+  Future<Cart> addtoCart(String name, String price, String quantity, String picture) async{
+    var load = await model.addToCart(name, price, quantity, picture);
+    refresh();
+    return load;
+  }
 }
+
+
