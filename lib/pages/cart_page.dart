@@ -6,7 +6,6 @@ import 'package:john_shop_mob/pages/cartProduct.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
 import 'package:john_shop_mob/struct/cart.dart';
 import 'package:john_shop_mob/model.dart';
-import 'package:john_shop_mob/struct/order.dart';
 
 
 

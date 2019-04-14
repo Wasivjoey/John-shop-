@@ -179,9 +179,7 @@ Divider(),
 
 
   Future<Cart> addtoCart(String name, String price, String quantity, String picture) async{
-    var load = await model.addToCart(name, price, quantity, picture);
-    refresh();
-    return load;
+    await model.addToCart(name, price, quantity, picture);
   }
 }
 
