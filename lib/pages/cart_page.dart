@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:john_shop_mob/pages/cartProduct.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
 import 'package:john_shop_mob/struct/cart.dart';
+import 'package:john_shop_mob/model.dart';
 
 
 
@@ -16,6 +17,7 @@ class Cart_Page extends StatefulWidget {
 class _Cart_PageState extends State<Cart_Page> {
   FirebaseFirestoreService db = new FirebaseFirestoreService();
 
+  static final model = Model();
   List<Cart> cart_List;
   int total = 0;
   StreamSubscription<QuerySnapshot> productSub;
@@ -137,12 +139,12 @@ class _Cart_PageState extends State<Cart_Page> {
             _formKey.currentState.save();
             var loop = cart_List.length;
             for (var index = 0; index < loop; index++) {
-              db.createOrder('${cart_List[index].productName}',
+              createOrder('${cart_List[index].productName}',
                   '${cart_List[index].productPrice}',
                   '${cart_List[index].productQuantity}', _studId, _studName);
-              db.emptyCart('${cart_List[index].id}');
+              emptyCart('${cart_List[index].id}');
             }
-            db.addGeoPoint(_studId, _studName);
+            addGeoPoint(_studId, _studName);
             Navigator.of(context).pop(context);
           }
         },
@@ -168,6 +170,18 @@ class _Cart_PageState extends State<Cart_Page> {
     }
     return null;
     }
+
+  void createOrder(String name, String price, String quantity, String studId, String studName) async {
+    await model.createOrder(name, price, quantity, studId, studName);
+  }
+
+  Future emptyCart(String id) async{
+    await model.emptyCart(id);
+  }
+
+  Future<DocumentReference> addGeoPoint(String studId, String studName) async {
+    await model.addGeoPoint(studId, studName);
+  }
 }
 
 
