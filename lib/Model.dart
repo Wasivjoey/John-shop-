@@ -1,8 +1,5 @@
-import 'dart:async' show Future;
 import 'package:john_shop_mob/firebase_firestore_service.dart';
-
 import 'struct/cart.dart';
-
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:john_shop_mob/struct/cart.dart';
@@ -19,8 +16,13 @@ var location = new Location();
 
 class Model {
 
+  static final Model _instance = new Model.internal();
 
-  FirebaseFirestoreService db = new FirebaseFirestoreService();
+  factory Model()=> _instance;
+
+  Model.internal();
+
+  //FirebaseFirestoreService db = new FirebaseFirestoreService();
 
   Future<Cart> addToCart(String name, String price, String quantity, String picture) async {
     final TransactionHandler createTransaction = (Transaction tx) async {
@@ -89,5 +91,18 @@ class Model {
     });
   }
 
+  Stream<QuerySnapshot> getProducts({int offset, int limit}) {
+    Stream<QuerySnapshot> snapshots = productCollection.snapshots();
+
+    if (offset != null) {
+      snapshots = snapshots.skip(offset);
+    }
+
+    if (limit != null) {
+      snapshots = snapshots.take(limit);
+    }
+
+    return snapshots;
+  }
 
 }
