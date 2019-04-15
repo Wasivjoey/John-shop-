@@ -5,6 +5,7 @@ import 'package:john_shop_mob/pages/product_details.dart';
 import 'package:john_shop_mob/firebase_firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:john_shop_mob/struct/product.dart';
+import 'package:john_shop_mob/Model.dart';
 
 class Products extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   FirebaseFirestoreService db = new FirebaseFirestoreService();
+  static final model = Model();
+
 
   List<Product> product_list;
   StreamSubscription<QuerySnapshot> productSub;
@@ -51,7 +54,12 @@ class _ProductsState extends State<Products> {
         );
       });
   }
+
+  /*Stream<QuerySnapshot> getProducts({int offset, int limit}) {
+    model.getProduc
+  }*/
 }
+
   class Single_prod extends StatelessWidget {
     final product_name;
     final product_picture;
@@ -102,6 +110,7 @@ class _ProductsState extends State<Products> {
         ),
     );
   }
-    
-  }
+
+
+}
   

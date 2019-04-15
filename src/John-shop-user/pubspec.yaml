@@ -21,8 +21,7 @@ dependencies:
   google_maps_flutter: ^0.5.3
   geoflutterfire: ^2.0.3+2
   numberpicker: ^1.0.0
-
-
+  mvc_pattern:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -53,7 +52,6 @@ flutter:
     - images/shop4.jpg
     - images/shop5.jpg
     - images/shop6.jpg
-    - images/patty.jpeg
     - images/cats/sand.png
     - images/cats/soda .png
     - images/cats/food.png
