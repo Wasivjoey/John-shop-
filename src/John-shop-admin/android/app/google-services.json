@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "991090511404",
+    "firebase_url": "https://john-shop-1552372372508.firebaseio.com",
+    "project_id": "john-shop-1552372372508",
+    "storage_bucket": "john-shop-1552372372508.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991090511404:android:99f49dc42d36e967",
+        "android_client_info": {
+          "package_name": "com.ap.john_shop_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkQ9kx2WJxdw3BrYm3XV0dcPYC5EtLkPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991090511404-dj45l4nrqc6rv9ic2qvqfjr6esme2jii.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "991090511404-pv3jq08ghjverlo75j708fe043figb4k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ap.johnShopMob"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991090511404:android:db7b279a8af37ed2",
+        "android_client_info": {
+          "package_name": "com.ap.johnshopmob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991090511404-pboh1h8r93cc4fhb2602eoatla0i4g5n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ap.johnshopmob",
+            "certificate_hash": "acb0dc2d3294b66cba4d8e861f22ceb11a7b10b4"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkQ9kx2WJxdw3BrYm3XV0dcPYC5EtLkPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991090511404-dj45l4nrqc6rv9ic2qvqfjr6esme2jii.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "991090511404-pv3jq08ghjverlo75j708fe043figb4k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ap.johnShopMob"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
